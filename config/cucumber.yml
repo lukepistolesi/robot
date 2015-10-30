@@ -1,0 +1,6 @@
+<%
+std_paths = "--format 'pretty' --require features/step_definitions --require features/support "
+std_opts = "#{std_paths} --strict --tags #{ENV['CUCUMBER_TAGS'] || '~@wip --tags ~@manual --tags ~@broken'}"
+%>
+default: <%= std_opts %> --tags ~@firefox --tags ~@selenium features --format 'html' --out tmp/cucumber.html
+wip: --drb --tags @wip:3 --wip features

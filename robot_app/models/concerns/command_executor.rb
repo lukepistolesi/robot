@@ -1,3 +1,5 @@
+require_relative '../exceptions/placement_exception'
+
 module CommandExecutor
 
   private
@@ -14,26 +16,28 @@ module CommandExecutor
     end
   end
 
+
   def execute_place(place_command_data)
     dimensions_no = playground.dimensions_count
     if dimensions_no > place_command_data.size - 1
-      raise "Playground dimensions=#{extension.size}, placement_array={place_command_data.size - 1}"
+      raise PlacementException.new(dimensions_no, place_command_data.size - 1)
     end
 
     coordinates = place_command_data[0..place_command_data.size - 2].map{ |val| Integer(val) }
 
     (0..dimensions_no - 1).each do |idx|
       if coordinates[idx] > playground.max(idx)
-        raise "Placing coordinates not valid: given=#{coordinates[idx]}, max_palyground=#{playground.max(idx)}"
+        raise PlacementException.new(coordinates[idx], playground.max(idx), idx)
       end
       if coordinates[idx] < playground.min(idx)
-        raise "Placing coordinates not valid: given=#{coordinates[idx]}, min_palyground=#{playground.min(idx)}"
+        raise PlacementException.new(coordinates[idx], playground.min(idx), idx)
       end
     end
 
-    self.position = ::RobotApp::Models::Position.new coordinates
+    self.position = RobotApp::Models::Position.new coordinates
+
     parsed_dir = parsed_direction_to_robot[place_command_data.last]
-    raise "Direction #{place_command_data.last} not recognized" if parsed_dir.nil?
+    raise PlacementException.new(place_command_data.last) if parsed_dir.nil?
     self.direction = parsed_dir
   end
 
@@ -44,5 +48,35 @@ module CommandExecutor
       'EAST' => self.class::Orientation_east,
       'WEST' => self.class::Orientation_west
     }
+  end
+
+  def execute_move(move_command_data)
+    new_coordinates = self.position.coordinates
+
+    case self.direction
+      when self.class::Orientation_north
+        new_coordinates[1] += 1
+      when self.class::Orientation_south
+        new_coordinates[1] -= 1
+      when self.class::Orientation_east
+        new_coordinates[0] -= 1
+      when self.class::Orientation_west
+        new_coordinates[0] += 1
+      else
+        raise "Orientation unknown #{self.direction}"
+    end
+
+    new_position = RobotApp::Models::Position.new new_coordinates
+    self.position = new_position if position_within_playground? new_position
+  end
+
+
+  def position_within_playground?(position)
+    coordinates = position.coordinates
+    return false if coordinates.size > playground.dimensions_count
+    coordinates.each_with_index do |value, idx|
+      return false unless self.playground.valid_value_for_dimension? value, idx
+    end
+    true
   end
 end

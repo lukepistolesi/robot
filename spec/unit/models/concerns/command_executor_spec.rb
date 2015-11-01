@@ -113,5 +113,109 @@ module RobotApp::Models
       end
     end
 
+
+    describe :execute_move do
+
+      describe 'safe move' do
+        let(:extension) { [[0, 3], [0, 3]] }
+        let(:safe_coordinates) { [1, 1] }
+        let(:safe_position) { instance_double Position, coordinates: safe_coordinates }
+        let(:playground) {
+          instance_double Playground,
+            max: extension.max { |a, b| a.last <=> b.last }.last,
+            min: extension.min { |a, b| a.first <=> b.first }.first
+        }
+
+        before :each do
+          allow(robot_test).to receive(:playground).and_return playground
+          allow(robot_test).to receive(:position).and_return safe_position
+        end
+
+        it 'raises exception when the orientation is unsupported' do
+          allow(robot_test).to receive(:direction).and_return :unknown
+          expect {robot_test.send :execute_move, []}.to raise_error
+        end
+
+        [
+          {update: :incremented, dimension_idx: 0, orientation: :west},
+          {update: :decremented, dimension_idx: 0, orientation: :east},
+          {update: :incremented, dimension_idx: 1, orientation: :north},
+          {update: :decremented, dimension_idx: 1, orientation: :south}
+        ].each do |move|
+
+          let(:new_position) { instance_double Position }
+
+          before :each do
+            allow(robot_test).to receive(:direction).and_return move[:orientation]
+            allow(Position).to receive(:new).and_return new_position
+            allow(robot_test).to receive(:position_within_playground?).and_return true
+            allow(robot_test).to receive :position=
+          end
+
+          it "creates #{move[:update]} dimension #{move[:dimension_idx]} because of orientation #{move[:orientation]}" do
+            delta = move[:update] == :incremented ? 1 : -1
+            new_coordinates = safe_coordinates.dup
+            new_coordinates[move[:dimension_idx]] += delta
+            allow(robot_test).to receive(:direction).and_return move[:orientation]
+
+            expect(Position).to receive(:new).with new_coordinates
+
+            robot_test.send :execute_move, []
+          end
+
+          it 'checks the newly created position against the playground' do
+            expect(robot_test).to receive(:position_within_playground?).with new_position
+
+            robot_test.send :execute_move, []
+          end
+
+          it 'updates the position within the robot' do
+            expect(robot_test).to receive(:position=).with new_position
+            robot_test.send :execute_move, []
+          end
+        end
+      end
+
+    end
+
+
+    describe :position_within_playground? do
+
+      let(:coordinates) { [3, 7] }
+      let(:position) { instance_double Position, coordinates: coordinates }
+      let(:playground) { instance_double Playground, dimensions_count: 2 }
+
+      before :each do
+        allow(robot_test).to receive(:playground).and_return playground
+      end
+
+      subject { robot_test.send :position_within_playground?, position }
+
+      it 'checks the position coordinates against the playground' do
+        expect(playground).to receive(:valid_value_for_dimension?).once.with(3, 0).and_return true
+        expect(playground).to receive(:valid_value_for_dimension?).once.with(7, 1)
+
+        subject
+      end
+
+      it 'returns true when all the coordinate are within the boundaries' do
+        allow(playground).to receive(:valid_value_for_dimension?).and_return true
+
+        expect(subject).to eql true
+      end
+
+      it 'returns false when when one ofhte values are outside the boundaries' do
+        allow(playground).to receive(:valid_value_for_dimension?).and_return false
+
+        expect(subject).to eql false
+      end
+
+      it 'returns false when the coordinates of the position are bigger than the playground' do
+        coordinates << 5
+        expect(subject).to eql false
+      end
+
+    end
+
   end
 end

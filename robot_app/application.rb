@@ -22,7 +22,11 @@ module RobotApp
         if input == APPLICATION_COMMANDS[:report]
           report_position robot
         else
-          robot.execute input
+          begin
+            robot.execute input
+          rescue Exception => ex
+            handle_execution_exception ex
+          end
         end
       end
     end
@@ -47,6 +51,13 @@ module RobotApp
     def self.report_position(robot)
       pos = robot.position
       puts [pos.x, pos.y, RobotApp::CommandParser::Orientations[robot.direction]].join(',')
+    end
+
+    def self.handle_execution_exception(exception)
+      if [Exception, StandardError, RuntimeError].include? exception.class
+        raise exception
+      end
+      puts exception.message
     end
   end
 end

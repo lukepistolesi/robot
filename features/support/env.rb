@@ -9,17 +9,14 @@ Aruba.configure do |config|
   # end
 end
 
-# Example of a Before block
-# Before('@slow_process') do
-#   @aruba_io_wait_seconds = 5
-# end
-
 def kill_app_process
   Process.kill 'INT', @wait_thr[:pid] if @wait_thr
 end
 
 After do |scenario|
-  puts "Standard Error: #{@app_stderr.readlines}" if @app_stderr
-  puts "Standard Output: #{@app_stdout.readlines}" if @app_stdout
+  if scenario.failed?
+    puts "Standard Error: #{@app_stderr.readlines}" if @app_stderr
+    puts "Standard Output: #{@app_stdout.readlines}" if @app_stdout
+  end
   @app_stdin = @app_stdout = @app_stderr = @wait_thr = nil
 end

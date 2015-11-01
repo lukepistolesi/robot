@@ -1,5 +1,6 @@
 require_relative '../spec_helper'
 require_relative '../../robot_app/application'
+require_relative '../../robot_app/models/exceptions/placement_exception'
 
 module RobotApp
 
@@ -40,6 +41,17 @@ module RobotApp
         allow(Application).to receive(:gets).and_return command, nil
 
         expect(robot).to receive(:execute).with command.upcase
+
+        subject
+      end
+
+      it 'handles execution exceptions' do
+        command = 'An Action'
+        allow(Application).to receive(:gets).and_return command, nil
+        exception = Exception.new 'Some sort of exception'
+        allow(robot).to receive(:execute).and_raise exception
+
+        expect(Application).to receive(:handle_execution_exception).with exception
 
         subject
       end
@@ -141,5 +153,31 @@ module RobotApp
         subject
       end
     end
+
+    describe :handle_execution_exception do
+      it 'prints the exception message when robot placement exception' do
+        exception = instance_double PlacementException, message: 'Placement ex'
+
+        expect(Application).to receive(:puts).with 'Placement ex'
+
+        Application.send :handle_execution_exception, exception
+      end
+
+      it 'raises exception when general exception' do
+        exception = Exception.new
+        expect {Application.send :handle_execution_exception, exception}.to raise_error exception
+      end
+
+      it 'raises exception when standard error' do
+        exception = StandardError.new
+        expect {Application.send :handle_execution_exception, exception}.to raise_error exception
+      end
+
+      it 'raises exception when runtime error' do
+        exception = RuntimeError.new
+        expect {Application.send :handle_execution_exception, exception}.to raise_error exception
+      end
+    end
+
   end
 end

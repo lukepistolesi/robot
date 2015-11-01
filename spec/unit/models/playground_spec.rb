@@ -58,5 +58,31 @@ module RobotApp::Models
       end
     end
 
+    describe :valid_value_for_dimension? do
+      it 'returns true when the value is wihtin the dimension' do
+        dimensions = [[1, 3], [7, 10]]
+        playground = Playground.new dimensions
+        expect(playground.valid_value_for_dimension? 8, 1).to eql true
+      end
+
+      it 'returns false when the value is less than min value for the dimension' do
+        dimensions = [[1, 3], [7, 10]]
+        playground = Playground.new dimensions
+        expect(playground.valid_value_for_dimension? 6, 1).to eql false
+      end
+
+      it 'returns false when the value is greater than max value for the dimension' do
+        dimensions = [[1, 3], [7, 10]]
+        playground = Playground.new dimensions
+        expect(playground.valid_value_for_dimension? 4, 0).to eql false
+      end
+
+      it 'raises exception when invalid dimension' do
+        dimensions = [[1, 3], [7, 10]]
+        playground = Playground.new dimensions
+        expect {playground.valid_value_for_dimension? 4, 2}.to raise_error
+      end
+    end
+
   end
 end

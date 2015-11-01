@@ -16,6 +16,11 @@ module RobotApp
         params: [x, y, direction]
       })
     end
+
+    it 'returns the parsed object for the MOVE command' do
+      res = CommandParser.parse 'MOVE'
+      expect(res).to eql( {command: :move, params: []} )
+    end
   end
 
 end

@@ -16,5 +16,8 @@ module RobotApp::Models
 
     def max(idx); @extension[idx].last end
 
+    def valid_value_for_dimension?(value, dimensions_idx)
+      @extension[dimensions_idx].first <= value && @extension[dimensions_idx].last >= value
+    end
   end
 end

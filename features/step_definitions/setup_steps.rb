@@ -3,7 +3,7 @@ Given(/^a robot is available$/) do
   sleep 0.3
 end
 
-Given(/^I deploy the robot at row "([\d]+)" and column "([\d]+)" facing "([^"]+)"$/) do |row_idx, col_idx, direction|
+Given(/^I deploy the robot at column "([\d]+)" and row "([\d]+)" facing "([^"]+)"$/) do |row_idx, col_idx, direction|
   step %Q{I run the following commands}, table(%Q{
     | Command | Data                               |
     | Place   | #{row_idx},#{col_idx},#{direction} |

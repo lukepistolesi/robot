@@ -95,3 +95,5 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 end
+
+def null_object; double.as_null_object end

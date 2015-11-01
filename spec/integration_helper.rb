@@ -6,7 +6,12 @@ class IntegrationHelper
     commands.each { |command| app_stdin.puts command }
 
     sleep 0.3
-    Process.kill 'INT', wait_thr[:pid]
+    begin
+      Process.kill 'INT', wait_thr[:pid]
+    rescue Exception => ex
+      puts "Could not kill the process: #{ex.message}"
+      puts "STD ERR:\n#{app_stderr.readlines.map(&:strip).join "\n"}"
+    end
 
     app_stdout.readlines.map &:strip
   end

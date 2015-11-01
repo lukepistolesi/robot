@@ -5,8 +5,8 @@ end
 
 Given(/^I deploy the robot at row "([\d]+)" and column "([\d]+)" facing "([^"]+)"$/) do |row_idx, col_idx, direction|
   step %Q{I run the following commands}, table(%Q{
-    | Command | Data                                 |
-    | Place   | #{row_idx}, #{col_idx}, #{direction} |
+    | Command | Data                               |
+    | Place   | #{row_idx},#{col_idx},#{direction} |
   })
 end
 

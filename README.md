@@ -93,3 +93,5 @@ At this stage the application accepts commands via command line and one after an
 The set of the commands has been extended a little bit adding the `EXIT` command to gently terminate the execution (and make the acceptance tests easier to implement).
 
 The test data are directly in the acceptance tests.
+
+The Parsing of the commands is pretty strict at the moment and it does not support white spaces among the parameters of the commands: can be added later on if needed.

@@ -137,8 +137,8 @@ module RobotApp::Models
         end
 
         [
-          {update: :incremented, dimension_idx: 0, orientation: :west},
-          {update: :decremented, dimension_idx: 0, orientation: :east},
+          {update: :decremented, dimension_idx: 0, orientation: :west},
+          {update: :incremented, dimension_idx: 0, orientation: :east},
           {update: :incremented, dimension_idx: 1, orientation: :north},
           {update: :decremented, dimension_idx: 1, orientation: :south}
         ].each do |move|

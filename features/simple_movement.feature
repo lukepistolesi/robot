@@ -16,8 +16,8 @@ Feature: Robot simple movement
 
   Examples:
     | Orientation | Final Column | Final Row |
-    | EAST        | 0            | 2         |
-    | WEST        | 4            | 2         |
+    | EAST        | 4            | 2         |
+    | WEST        | 0            | 2         |
     | NORTH       | 2            | 4         |
     | SOUTH       | 2            | 0         |
 
@@ -34,15 +34,15 @@ Feature: Robot simple movement
 
   Examples:
     | Orientation | Start Column | Start Row | Final Column | Final Row |
-    | EAST        | 1            | 1         | 0            | 1         |
-    | WEST        | 3            | 1         | 4            | 1         |
+    | EAST        | 3            | 1         | 4            | 1         |
+    | WEST        | 1            | 1         | 0            | 1         |
     | NORTH       | 1            | 3         | 1            | 4         |
     | SOUTH       | 1            | 1         | 1            | 0         |
-    | EAST        | 1            | 0         | 0            | 0         |
-    | WEST        | 3            | 0         | 4            | 0         |
+    | EAST        | 3            | 0         | 4            | 0         |
+    | WEST        | 1            | 0         | 0            | 0         |
     | NORTH       | 0            | 3         | 0            | 4         |
     | SOUTH       | 0            | 1         | 0            | 0         |
-    | EAST        | 0            | 0         | 0            | 0         |
-    | WEST        | 4            | 4         | 4            | 4         |
+    | EAST        | 4            | 0         | 4            | 0         |
+    | WEST        | 0            | 4         | 0            | 4         |
     | NORTH       | 4            | 4         | 4            | 4         |
     | SOUTH       | 0            | 0         | 0            | 0         |

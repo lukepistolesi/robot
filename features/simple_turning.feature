@@ -22,4 +22,3 @@ Feature: Robot simple turning
     | WEST        | EAST              |
     | NORTH       | SOUTH             |
     | SOUTH       | NORTH             |
-

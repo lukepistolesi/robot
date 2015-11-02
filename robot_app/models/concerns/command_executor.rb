@@ -59,9 +59,9 @@ module CommandExecutor
       when self.class::Orientation_south
         new_coordinates[1] -= 1
       when self.class::Orientation_east
-        new_coordinates[0] -= 1
-      when self.class::Orientation_west
         new_coordinates[0] += 1
+      when self.class::Orientation_west
+        new_coordinates[0] -= 1
       else
         raise "Orientation unknown #{self.direction}"
     end

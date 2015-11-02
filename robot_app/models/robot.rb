@@ -14,6 +14,7 @@ module RobotApp::Models
     Orientation_south = :south
     Orientation_east = :east
     Orientation_west = :west
+    ClockWiseOrientations = [Orientation_north, Orientation_east, Orientation_south, Orientation_west]
     Orientations = Set.new [Orientation_north, Orientation_south, Orientation_east, Orientation_west]
 
     def self.ori; 'abc' end

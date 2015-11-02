@@ -19,7 +19,7 @@ Feature: Robot simple turning
   Examples:
     | Orientation | Final Orientation |
     | EAST        | WEST              |
-    # | WEST        | EAST              |
-    # | NORTH       | SOUTH             |
-    # | SOUTH       | NORTH             |
+    | WEST        | EAST              |
+    | NORTH       | SOUTH             |
+    | SOUTH       | NORTH             |
 

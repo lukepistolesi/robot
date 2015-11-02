@@ -198,6 +198,25 @@ module RobotApp::Models
       end
     end
 
+    describe :execute_right do
+
+      subject { robot_test.send :execute_right, [] }
+
+      [
+        {start: Robot::Orientation_north, stop: Robot::Orientation_east},
+        {start: Robot::Orientation_west, stop: Robot::Orientation_north},
+        {start: Robot::Orientation_south, stop: Robot::Orientation_west},
+        {start: Robot::Orientation_east, stop: Robot::Orientation_south}
+      ].each do |data|
+        it "changes orientation from #{data[:start]} to #{data[:stop]}" do
+          allow(robot_test).to receive(:direction).and_return data[:start]
+          expect(robot_test).to receive(:direction=).with data[:stop]
+
+          subject
+        end
+      end
+    end
+
 
     describe :position_within_playground? do
 

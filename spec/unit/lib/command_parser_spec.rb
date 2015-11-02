@@ -26,6 +26,11 @@ module RobotApp
       res = CommandParser.parse 'LEFT'
       expect(res).to eql( {command: :left, params: []} )
     end
+
+    it 'returns the parsed object for the RIGHT command' do
+      res = CommandParser.parse 'RIGHT'
+      expect(res).to eql( {command: :right, params: []} )
+    end
   end
 
 end

@@ -71,15 +71,16 @@ module CommandExecutor
   end
 
   def execute_left(left_command_data)
-    clock_wise = [
-      self.class::Orientation_north,
-      self.class::Orientation_east,
-      self.class::Orientation_south,
-      self.class::Orientation_west
-    ]
+    clock_wise = self.class::ClockWiseOrientations
     idx = clock_wise.index(self.direction) - 1
     new_direction_idx = idx < 0 ? clock_wise.size - 1 : idx
     self.direction = clock_wise[new_direction_idx]
+  end
+
+  def execute_right(right_command_data)
+    clock_wise = self.class::ClockWiseOrientations
+    idx = clock_wise.index(self.direction) + 1
+    self.direction = clock_wise[idx % clock_wise.size]
   end
 
 

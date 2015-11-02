@@ -14,7 +14,7 @@ def kill_app_process
 end
 
 After do |scenario|
-  puts "Standard Output: #{@app_stdout.readlines.join "\n"}" if @app_stdout
+  # puts "Standard Output: #{@app_stdout.readlines.join "\n"}" if @app_stdout
   if scenario.failed?
     puts "Standard Error: #{@app_stderr.readlines}" if @app_stderr
     puts "Standard Output: #{@app_stdout.readlines}" if @app_stdout

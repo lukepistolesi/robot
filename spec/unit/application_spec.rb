@@ -74,6 +74,13 @@ module RobotApp
 
         subject
       end
+
+      it 'stops execution when exit command' do
+        command = Application::APPLICATION_COMMANDS[:exit]
+        expect(Application).to receive(:gets).once.and_return command
+
+        subject
+      end
     end
 
 

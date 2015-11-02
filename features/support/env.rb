@@ -10,10 +10,11 @@ Aruba.configure do |config|
 end
 
 def kill_app_process
-  Process.kill 'INT', @wait_thr[:pid] if @wait_thr
+  @app_stdin.puts 'EXIT'
 end
 
 After do |scenario|
+  puts "Standard Output: #{@app_stdout.readlines.join "\n"}" if @app_stdout
   if scenario.failed?
     puts "Standard Error: #{@app_stderr.readlines}" if @app_stderr
     puts "Standard Output: #{@app_stdout.readlines}" if @app_stdout

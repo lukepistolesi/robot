@@ -10,7 +10,8 @@ module RobotApp
 
     MAX_X_GRID_IDX = MAX_Y_GRID_IDX = 4
     APPLICATION_COMMANDS = {
-      report: 'REPORT'
+      report: 'REPORT',
+      exit: 'EXIT'
     }
 
     def self.run(args)
@@ -19,14 +20,17 @@ module RobotApp
 
       while input = gets
         input = input.strip.upcase
-        if input == APPLICATION_COMMANDS[:report]
-          report_position robot
-        else
-          begin
-            robot.execute input
-          rescue Exception => ex
-            handle_execution_exception ex
-          end
+        case input
+          when APPLICATION_COMMANDS[:report]
+            report_position robot
+          when APPLICATION_COMMANDS[:exit]
+            break
+          else
+            begin
+              robot.execute input
+            rescue Exception => ex
+              handle_execution_exception ex
+            end
         end
       end
     end

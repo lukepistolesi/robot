@@ -64,3 +64,32 @@ Any move that would cause the robot to fall must be ignored.
 ### Deliverables
 ----------------
 The source files, the test data and any test code.
+
+
+# Install instruction
+---------------------
+The codebase is pretty straight forward and it has the version.conf file to be automatically used by RVM to setup ruby and gems.
+
+Hopefully while entering the application directory, RVM kicks in, creates the gemset for the project and install the gems.
+
+Someuseful commands to run are for development purpose:
+
+- `rspec` to run unit tests and coverage.
+
+- `NO_COV=true rspec --tag integration` to run the dev-friendly integration tests without coverage. There is only one test because it is meant to provide an hint on how integration tests can be done with rspec instead of cucumber.
+
+- `cucumber` to run the acceptance tests
+
+- `robot_app.sh` to run the application from the command line
+
+### Notes
+--------
+The project folder contains the tmp folder used for temporary files generated while running tests.
+
+The application can be executed manually using the shell script `robot_app.sh` provided in the main folder.
+
+At this stage the application accepts commands via command line and one after another. Adding a file as input parameter should be farly easy given the command line gem used in the project: see the main application class.
+
+The set of the commands has been extended a little bit adding the `EXIT` command to gently terminate the execution (and make the acceptance tests easier to implement).
+
+The test data are directly in the acceptance tests.

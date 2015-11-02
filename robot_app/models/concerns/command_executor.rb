@@ -70,6 +70,18 @@ module CommandExecutor
     self.position = new_position if position_within_playground? new_position
   end
 
+  def execute_left(left_command_data)
+    clock_wise = [
+      self.class::Orientation_north,
+      self.class::Orientation_east,
+      self.class::Orientation_south,
+      self.class::Orientation_west
+    ]
+    idx = clock_wise.index(self.direction) - 1
+    new_direction_idx = idx < 0 ? clock_wise.size - 1 : idx
+    self.direction = clock_wise[new_direction_idx]
+  end
+
 
   def position_within_playground?(position)
     coordinates = position.coordinates
@@ -79,4 +91,5 @@ module CommandExecutor
     end
     true
   end
+
 end

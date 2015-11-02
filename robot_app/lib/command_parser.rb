@@ -12,7 +12,8 @@ module RobotApp
 
     Commands = {
       place: Regexp.new("^PLACE (\\d+),(\\d+),(#{Orientations.values.join '|'})$"),
-      move: /^MOVE$/
+      move: /^MOVE$/,
+      left: /^LEFT$/
     }
 
     def self.parse(command_string)

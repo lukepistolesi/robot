@@ -6,35 +6,35 @@ module RobotApp
 
   describe Application do
 
-    # let(:cmd_line_args) { [] }
+    let(:cmd_line_args) { [] }
 
-    # describe :run do
-    #   let(:robot) { instance_double Models::Robot }
-    #   let(:playground) { instance_double Models::Playground }
+    describe :run do
+      let(:robot) { instance_double Models::Robot }
+      let(:playground) { instance_double Models::Playground }
 
-    #   before :each do
-    #     allow(Application).to receive(:parse_command_line_opts).and_return({})
-    #     allow(Application).to receive(:initialize_playground).and_return [playground, robot]
-    #     allow(Application).to receive(:gets).and_return nil
-    #     allow(Application).to receive :puts
-    #   end
+      before :each do
+        allow(Application).to receive(:parse_command_line_opts).and_return({})
+        allow(Application).to receive(:initialize_playground).and_return [playground, robot]
+        allow(Application).to receive(:gets).and_return nil
+        allow(Application).to receive :puts
+      end
 
-    #   subject { Application.run cmd_line_args}
+      subject { Application.run cmd_line_args}
 
-    #   it 'parses the command line options' do
-    #     expect(Application).to receive(:parse_command_line_opts).with cmd_line_args
-    #     subject
-    #   end
+      it 'parses the command line options' do
+        expect(Application).to receive(:parse_command_line_opts).with cmd_line_args
+        subject
+      end
 
-    #   it 'initializes the playground area' do
-    #     expect(Application).to receive :initialize_playground
-    #     subject
-    #   end
+      it 'initializes the playground area' do
+        expect(Application).to receive :initialize_playground
+        subject
+      end
 
-    #   it 'waits for input from command line' do
-    #     expect(Application).to receive(:gets).and_return nil
-    #     subject
-    #   end
+      it 'waits for input from command line' do
+        expect(Application).to receive(:gets).and_return nil
+        subject
+      end
 
     #   it 'passes the commands to the robot' do
     #     command = 'An Action'
@@ -56,14 +56,14 @@ module RobotApp
     #     subject
     #   end
 
-    #   it 'prints out the robot position when requested' do
-    #     command = Application::APPLICATION_COMMANDS[:report]
-    #     allow(Application).to receive(:gets).and_return command, nil
+      it 'prints out the robot position when requested' do
+        command = Application::APPLICATION_COMMANDS[:report]
+        allow(Application).to receive(:gets).and_return command, nil
 
-    #     expect(Application).to receive(:report_position).with robot
+        expect(Application).to receive(:report_position).with robot
 
-    #     subject
-    #   end
+        subject
+      end
 
     #   it 'does not execute the command when application command' do
     #     command = Application::APPLICATION_COMMANDS[:report]
@@ -75,13 +75,13 @@ module RobotApp
     #     subject
     #   end
 
-    #   it 'stops execution when exit command' do
-    #     command = Application::APPLICATION_COMMANDS[:exit]
-    #     expect(Application).to receive(:gets).once.and_return command
+      it 'stops execution when exit command' do
+        command = Application::APPLICATION_COMMANDS[:exit]
+        expect(Application).to receive(:gets).once.and_return command
 
-    #     subject
-    #   end
-    # end
+        subject
+      end
+    end
 
 
     # describe :parse_command_line_opts do

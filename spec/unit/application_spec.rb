@@ -6,185 +6,185 @@ module RobotApp
 
   describe Application do
 
-    let(:cmd_line_args) { [] }
+    # let(:cmd_line_args) { [] }
 
-    describe :run do
-      let(:robot) { instance_double Models::Robot }
-      let(:playground) { instance_double Models::Playground }
+    # describe :run do
+    #   let(:robot) { instance_double Models::Robot }
+    #   let(:playground) { instance_double Models::Playground }
 
-      before :each do
-        allow(Application).to receive(:parse_command_line_opts).and_return({})
-        allow(Application).to receive(:initialize_playground).and_return [playground, robot]
-        allow(Application).to receive(:gets).and_return nil
-        allow(Application).to receive :puts
-      end
+    #   before :each do
+    #     allow(Application).to receive(:parse_command_line_opts).and_return({})
+    #     allow(Application).to receive(:initialize_playground).and_return [playground, robot]
+    #     allow(Application).to receive(:gets).and_return nil
+    #     allow(Application).to receive :puts
+    #   end
 
-      subject { Application.run cmd_line_args}
+    #   subject { Application.run cmd_line_args}
 
-      it 'parses the command line options' do
-        expect(Application).to receive(:parse_command_line_opts).with cmd_line_args
-        subject
-      end
+    #   it 'parses the command line options' do
+    #     expect(Application).to receive(:parse_command_line_opts).with cmd_line_args
+    #     subject
+    #   end
 
-      it 'initializes the playground area' do
-        expect(Application).to receive :initialize_playground
-        subject
-      end
+    #   it 'initializes the playground area' do
+    #     expect(Application).to receive :initialize_playground
+    #     subject
+    #   end
 
-      it 'waits for input from command line' do
-        expect(Application).to receive(:gets).and_return nil
-        subject
-      end
+    #   it 'waits for input from command line' do
+    #     expect(Application).to receive(:gets).and_return nil
+    #     subject
+    #   end
 
-      it 'passes the commands to the robot' do
-        command = 'An Action'
-        allow(Application).to receive(:gets).and_return command, nil
+    #   it 'passes the commands to the robot' do
+    #     command = 'An Action'
+    #     allow(Application).to receive(:gets).and_return command, nil
 
-        expect(robot).to receive(:execute).with command.upcase
+    #     expect(robot).to receive(:execute).with command.upcase
 
-        subject
-      end
+    #     subject
+    #   end
 
-      it 'handles execution exceptions' do
-        command = 'An Action'
-        allow(Application).to receive(:gets).and_return command, nil
-        exception = Exception.new 'Some sort of exception'
-        allow(robot).to receive(:execute).and_raise exception
+    #   it 'handles execution exceptions' do
+    #     command = 'An Action'
+    #     allow(Application).to receive(:gets).and_return command, nil
+    #     exception = Exception.new 'Some sort of exception'
+    #     allow(robot).to receive(:execute).and_raise exception
 
-        expect(Application).to receive(:handle_execution_exception).with exception
+    #     expect(Application).to receive(:handle_execution_exception).with exception
 
-        subject
-      end
+    #     subject
+    #   end
 
-      it 'prints out the robot position when requested' do
-        command = Application::APPLICATION_COMMANDS[:report]
-        allow(Application).to receive(:gets).and_return command, nil
+    #   it 'prints out the robot position when requested' do
+    #     command = Application::APPLICATION_COMMANDS[:report]
+    #     allow(Application).to receive(:gets).and_return command, nil
 
-        expect(Application).to receive(:report_position).with robot
+    #     expect(Application).to receive(:report_position).with robot
 
-        subject
-      end
+    #     subject
+    #   end
 
-      it 'does not execute the command when application command' do
-        command = Application::APPLICATION_COMMANDS[:report]
-        allow(Application).to receive(:gets).and_return command, nil
-        allow(Application).to receive :report_position
+    #   it 'does not execute the command when application command' do
+    #     command = Application::APPLICATION_COMMANDS[:report]
+    #     allow(Application).to receive(:gets).and_return command, nil
+    #     allow(Application).to receive :report_position
 
-        expect(robot).not_to receive :execute
+    #     expect(robot).not_to receive :execute
 
-        subject
-      end
+    #     subject
+    #   end
 
-      it 'stops execution when exit command' do
-        command = Application::APPLICATION_COMMANDS[:exit]
-        expect(Application).to receive(:gets).once.and_return command
+    #   it 'stops execution when exit command' do
+    #     command = Application::APPLICATION_COMMANDS[:exit]
+    #     expect(Application).to receive(:gets).once.and_return command
 
-        subject
-      end
-    end
-
-
-    describe :parse_command_line_opts do
-
-      subject { Application.parse_command_line_opts cmd_line_args}
-
-      it 'raises exception when command line params' do
-        expected_file_name = 'Input File Name'
-        cmd_line_args << expected_file_name
-        expect{subject}.to raise_error 'Wrong number of arguments'
-      end
-
-      it 'returns empty hash' do
-        expect(subject).to eql({})
-      end
-    end
+    #     subject
+    #   end
+    # end
 
 
-    describe :initialize_playground do
+    # describe :parse_command_line_opts do
 
-      let(:robot) { instance_double Models::Robot, :playground= => nil }
-      let(:playground) { instance_double Models::Playground }
+    #   subject { Application.parse_command_line_opts cmd_line_args}
 
-      before :each do
-        allow(Models::Playground).to receive(:new).and_return playground
-        allow(Models::Robot).to receive(:new).and_return robot
-      end
+    #   it 'raises exception when command line params' do
+    #     expected_file_name = 'Input File Name'
+    #     cmd_line_args << expected_file_name
+    #     expect{subject}.to raise_error 'Wrong number of arguments'
+    #   end
 
-      subject { Application.initialize_playground }
+    #   it 'returns empty hash' do
+    #     expect(subject).to eql({})
+    #   end
+    # end
 
-      it 'creates a new playground' do
-        dimensions = [[0,4], [0,4]]
-        expect(Models::Playground).to receive(:new).with dimensions
-        subject
-      end
 
-      it 'creates a robot' do
-        expect(Models::Robot).to receive(:new).and_return robot
-        subject
-      end
+    # describe :initialize_playground do
 
-      it 'assigns the playground to the robot' do
-        expect(robot).to receive(:playground=).with playground
-        subject
-      end
+    #   let(:robot) { instance_double Models::Robot, :playground= => nil }
+    #   let(:playground) { instance_double Models::Playground }
 
-      it 'returns the created playground and robot' do
-        expect(subject).to eql [playground, robot]
-      end
-    end
+    #   before :each do
+    #     allow(Models::Playground).to receive(:new).and_return playground
+    #     allow(Models::Robot).to receive(:new).and_return robot
+    #   end
 
-    describe :report_position do
-      let(:position) { double(Models::Position).as_null_object }
-      let(:direction) { RobotApp::CommandParser::Orientations.keys.first }
-      let(:robot) { instance_double Models::Robot, position: position, direction: direction }
+    #   subject { Application.initialize_playground }
 
-      before :each do
-        allow(Application).to receive :puts
-      end
+    #   it 'creates a new playground' do
+    #     dimensions = [[0,4], [0,4]]
+    #     expect(Models::Playground).to receive(:new).with dimensions
+    #     subject
+    #   end
 
-      subject { Application.report_position robot }
+    #   it 'creates a robot' do
+    #     expect(Models::Robot).to receive(:new).and_return robot
+    #     subject
+    #   end
 
-      it 'retrieves the robot position' do
-        expect(robot).to receive(:position).and_return position
-        subject
-      end
+    #   it 'assigns the playground to the robot' do
+    #     expect(robot).to receive(:playground=).with playground
+    #     subject
+    #   end
 
-      it 'prints the robot position and direction' do
-        x, y, dir = [12, 15, RobotApp::CommandParser::Orientations[direction]]
-        allow(position).to receive(:x).and_return x
-        allow(position).to receive(:y).and_return y
-        allow(robot).to receive(:direction).and_return direction
+    #   it 'returns the created playground and robot' do
+    #     expect(subject).to eql [playground, robot]
+    #   end
+    # end
 
-        expect(Application).to receive(:puts).with "#{x},#{y},#{dir}"
+    # describe :report_position do
+    #   let(:position) { double(Models::Position).as_null_object }
+    #   let(:direction) { RobotApp::CommandParser::Orientations.keys.first }
+    #   let(:robot) { instance_double Models::Robot, position: position, direction: direction }
 
-        subject
-      end
-    end
+    #   before :each do
+    #     allow(Application).to receive :puts
+    #   end
 
-    describe :handle_execution_exception do
-      it 'prints the exception message when robot placement exception' do
-        exception = instance_double PlacementException, message: 'Placement ex'
+    #   subject { Application.report_position robot }
 
-        expect(Application).to receive(:puts).with 'Placement ex'
+    #   it 'retrieves the robot position' do
+    #     expect(robot).to receive(:position).and_return position
+    #     subject
+    #   end
 
-        Application.send :handle_execution_exception, exception
-      end
+    #   it 'prints the robot position and direction' do
+    #     x, y, dir = [12, 15, RobotApp::CommandParser::Orientations[direction]]
+    #     allow(position).to receive(:x).and_return x
+    #     allow(position).to receive(:y).and_return y
+    #     allow(robot).to receive(:direction).and_return direction
 
-      it 'raises exception when general exception' do
-        exception = Exception.new
-        expect {Application.send :handle_execution_exception, exception}.to raise_error exception
-      end
+    #     expect(Application).to receive(:puts).with "#{x},#{y},#{dir}"
 
-      it 'raises exception when standard error' do
-        exception = StandardError.new
-        expect {Application.send :handle_execution_exception, exception}.to raise_error exception
-      end
+    #     subject
+    #   end
+    # end
 
-      it 'raises exception when runtime error' do
-        exception = RuntimeError.new
-        expect {Application.send :handle_execution_exception, exception}.to raise_error exception
-      end
-    end
+    # describe :handle_execution_exception do
+    #   it 'prints the exception message when robot placement exception' do
+    #     exception = instance_double PlacementException, message: 'Placement ex'
+
+    #     expect(Application).to receive(:puts).with 'Placement ex'
+
+    #     Application.send :handle_execution_exception, exception
+    #   end
+
+    #   it 'raises exception when general exception' do
+    #     exception = Exception.new
+    #     expect {Application.send :handle_execution_exception, exception}.to raise_error exception
+    #   end
+
+    #   it 'raises exception when standard error' do
+    #     exception = StandardError.new
+    #     expect {Application.send :handle_execution_exception, exception}.to raise_error exception
+    #   end
+
+    #   it 'raises exception when runtime error' do
+    #     exception = RuntimeError.new
+    #     expect {Application.send :handle_execution_exception, exception}.to raise_error exception
+    #   end
+    # end
 
   end
 end

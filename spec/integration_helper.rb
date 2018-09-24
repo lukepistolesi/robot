@@ -5,7 +5,7 @@ class IntegrationHelper
 
     commands.each { |command| app_stdin.puts command }
 
-    sleep 0.3
+    # sleep 0.3
     begin
       Process.kill 'INT', wait_thr[:pid]
     rescue Exception => ex

@@ -13,13 +13,13 @@ Given(/^the final position is column "([\d]+)" and row "([\d]+)" facing "([^"]+)
 
 end
 
-Given(/^the application output is "([^"]+)"$/) do |message|
+Given(/^the application output is "([^"]+)"$/) do |robot_status|
   #kill the process to unlock all the std pipes: easy way
   kill_app_process
   lines = @app_stdout.readlines || []
   last_line = lines.empty? ? '' : lines.last.strip
 
-  unless last_line.include? message
+  unless last_line.include? robot_status
     print_std_out_and_err lines
     expect(last_line).to eql robot_status
   end

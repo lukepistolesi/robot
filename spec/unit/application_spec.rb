@@ -100,38 +100,38 @@ module RobotApp
     end
 
 
-    # describe :initialize_playground do
+    describe :initialize_playground do
 
-    #   let(:robot) { instance_double Models::Robot, :playground= => nil }
-    #   let(:playground) { instance_double Models::Playground }
+      let(:robot) { instance_double Models::Robot, :playground= => nil }
+      let(:playground) { instance_double Models::Playground }
 
-    #   before :each do
-    #     allow(Models::Playground).to receive(:new).and_return playground
-    #     allow(Models::Robot).to receive(:new).and_return robot
-    #   end
+      before :each do
+        allow(Models::Playground).to receive(:new).and_return playground
+        allow(Models::Robot).to receive(:new).and_return robot
+      end
 
-    #   subject { Application.initialize_playground }
+      subject { Application.initialize_playground }
 
-    #   it 'creates a new playground' do
-    #     dimensions = [[0,4], [0,4]]
-    #     expect(Models::Playground).to receive(:new).with dimensions
-    #     subject
-    #   end
+      it 'creates a new playground' do
+        dimensions = [[0,4], [0,4]]
+        expect(Models::Playground).to receive(:new).with dimensions
+        subject
+      end
 
-    #   it 'creates a robot' do
-    #     expect(Models::Robot).to receive(:new).and_return robot
-    #     subject
-    #   end
+      it 'creates a robot' do
+        expect(Models::Robot).to receive(:new).and_return robot
+        subject
+      end
 
-    #   it 'assigns the playground to the robot' do
-    #     expect(robot).to receive(:playground=).with playground
-    #     subject
-    #   end
+      it 'assigns the playground to the robot' do
+        expect(robot).to receive(:playground=).with playground
+        subject
+      end
 
-    #   it 'returns the created playground and robot' do
-    #     expect(subject).to eql [playground, robot]
-    #   end
-    # end
+      it 'returns the created playground and robot' do
+        expect(subject).to eql [playground, robot]
+      end
+    end
 
     # describe :report_position do
     #   let(:position) { double(Models::Position).as_null_object }

@@ -84,20 +84,20 @@ module RobotApp
     end
 
 
-    # describe :parse_command_line_opts do
+    describe :parse_command_line_opts do
 
-    #   subject { Application.parse_command_line_opts cmd_line_args}
+      subject { Application.parse_command_line_opts cmd_line_args}
 
-    #   it 'raises exception when command line params' do
-    #     expected_file_name = 'Input File Name'
-    #     cmd_line_args << expected_file_name
-    #     expect{subject}.to raise_error 'Wrong number of arguments'
-    #   end
+      it 'raises exception when command line params' do
+        expected_file_name = 'Input File Name'
+        cmd_line_args << expected_file_name
+        expect{subject}.to raise_error 'Wrong number of arguments'
+      end
 
-    #   it 'returns empty hash' do
-    #     expect(subject).to eql({})
-    #   end
-    # end
+      it 'returns empty hash' do
+        expect(subject).to eql({})
+      end
+    end
 
 
     # describe :initialize_playground do

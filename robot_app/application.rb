@@ -38,8 +38,9 @@ module RobotApp
     # private
 
     def self.parse_command_line_opts(args)
-    #   raise 'Wrong number of arguments' if args.size != 0
-    #   {}
+      # No command lin options yet
+      raise 'Wrong number of arguments' if args.size != 0
+      {}
     end
 
     def self.initialize_playground

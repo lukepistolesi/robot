@@ -133,58 +133,58 @@ module RobotApp
       end
     end
 
-    # describe :report_position do
-    #   let(:position) { double(Models::Position).as_null_object }
-    #   let(:direction) { RobotApp::CommandParser::Orientations.keys.first }
-    #   let(:robot) { instance_double Models::Robot, position: position, direction: direction }
+    describe :report_position do
+      let(:position) { double(Models::Position).as_null_object }
+      let(:direction) { RobotApp::CommandParser::Orientations.keys.first }
+      let(:robot) { instance_double Models::Robot, position: position, direction: direction }
 
-    #   before :each do
-    #     allow(Application).to receive :puts
-    #   end
+      before :each do
+        allow(Application).to receive :puts
+      end
 
-    #   subject { Application.report_position robot }
+      subject { Application.report_position robot }
 
-    #   it 'retrieves the robot position' do
-    #     expect(robot).to receive(:position).and_return position
-    #     subject
-    #   end
+      it 'retrieves the robot position' do
+        expect(robot).to receive(:position).and_return position
+        subject
+      end
 
-    #   it 'prints the robot position and direction' do
-    #     x, y, dir = [12, 15, RobotApp::CommandParser::Orientations[direction]]
-    #     allow(position).to receive(:x).and_return x
-    #     allow(position).to receive(:y).and_return y
-    #     allow(robot).to receive(:direction).and_return direction
+      it 'prints the robot position and direction' do
+        x, y, dir = [12, 15, RobotApp::CommandParser::Orientations[direction]]
+        allow(position).to receive(:x).and_return x
+        allow(position).to receive(:y).and_return y
+        allow(robot).to receive(:direction).and_return direction
 
-    #     expect(Application).to receive(:puts).with "#{x},#{y},#{dir}"
+        expect(Application).to receive(:puts).with "#{x},#{y},#{dir}"
 
-    #     subject
-    #   end
-    # end
+        subject
+      end
+    end
 
-    # describe :handle_execution_exception do
-    #   it 'prints the exception message when robot placement exception' do
-    #     exception = instance_double PlacementException, message: 'Placement ex'
+    describe :handle_execution_exception do
+      it 'prints the exception message when robot placement exception' do
+        exception = instance_double PlacementException, message: 'Placement ex'
 
-    #     expect(Application).to receive(:puts).with 'Placement ex'
+        expect(Application).to receive(:puts).with 'Placement ex'
 
-    #     Application.send :handle_execution_exception, exception
-    #   end
+        Application.send :handle_execution_exception, exception
+      end
 
-    #   it 'raises exception when general exception' do
-    #     exception = Exception.new
-    #     expect {Application.send :handle_execution_exception, exception}.to raise_error exception
-    #   end
+      it 'raises exception when general exception' do
+        exception = Exception.new
+        expect {Application.send :handle_execution_exception, exception}.to raise_error exception
+      end
 
-    #   it 'raises exception when standard error' do
-    #     exception = StandardError.new
-    #     expect {Application.send :handle_execution_exception, exception}.to raise_error exception
-    #   end
+      it 'raises exception when standard error' do
+        exception = StandardError.new
+        expect {Application.send :handle_execution_exception, exception}.to raise_error exception
+      end
 
-    #   it 'raises exception when runtime error' do
-    #     exception = RuntimeError.new
-    #     expect {Application.send :handle_execution_exception, exception}.to raise_error exception
-    #   end
-    # end
+      it 'raises exception when runtime error' do
+        exception = RuntimeError.new
+        expect {Application.send :handle_execution_exception, exception}.to raise_error exception
+      end
+    end
 
   end
 end
